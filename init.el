@@ -122,3 +122,7 @@
 
 ;; Load all packs - Power Extreme!
 (live-load-all-packs live-packs)
+
+(add-to-list 'load-path "Org-Mode/org-mode-crate/")
+(setq org-directory "Org-Mode/org-files-dir")
+(require 'org-mode-crate-init)

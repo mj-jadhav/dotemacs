@@ -142,3 +142,9 @@
 
 (setenv "PATH" (concat "/usr/local/smlnj/bin:" (getenv "PATH")))
 (setq exec-path (cons "/usr/local/smlnj/bin"  exec-path))
+
+(global-set-key (kbd "C-x q") 'git-gutter:revert-hunk)
+(global-set-key (kbd "C-x x") 'git-gutter:popup-diff)
+(global-set-key (kbd "C-c C-s") 'git-gutter:stage-hunk)
+(global-set-key (kbd "C-x n") 'git-gutter:previous-hunk)
+(global-set-key (kbd "C-x p") 'git-gutter:next-hunk)

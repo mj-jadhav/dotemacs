@@ -122,3 +122,5 @@
 
 ;; Load all packs - Power Extreme!
 (live-load-all-packs live-packs)
+
+(setq mac-command-modifier 'meta)

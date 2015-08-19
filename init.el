@@ -124,3 +124,5 @@
 (live-load-all-packs live-packs)
 
 (setq mac-command-modifier 'meta)
+
+(server-start)

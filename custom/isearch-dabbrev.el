@@ -93,9 +93,6 @@
         (save-excursion
           (let ((point-start
                  (ignore-errors
-                   (if isearch-forward
-                       (backward-sexp)
-                     (forward-sexp))
                    (point))))
             
             (dabbrev--reset-global-variables)

@@ -1,150 +1,164 @@
-;; Emacs LIVE
-;;
-;; This is where everything starts. Do you remember this place?
-;; It remembers you...
+(require 'package)
 
-;; Store live base dirs
-(setq live-root-dir (file-name-directory
-                     (or (buffer-file-name) load-file-name)))
+;; BASIC SETUP
+(add-to-list 'package-archives
+	     '("melpa-stable" . "https://stable.melpa.org/packages/")
+	     t)
 
-(setq
- live-tmp-dir      (file-name-as-directory (concat live-root-dir "tmp"))
- live-etc-dir      (file-name-as-directory (concat live-root-dir "etc"))
- live-packs-dir    (file-name-as-directory (concat live-root-dir "packs"))
- live-autosaves-dir(file-name-as-directory (concat live-tmp-dir  "autosaves"))
- live-backups-dir  (file-name-as-directory (concat live-tmp-dir  "backups"))
- live-load-pack-dir nil)
+(package-initialize)
 
-;; create tmp dirs if necessary
-(make-directory live-etc-dir t)
-(make-directory live-tmp-dir t)
-(make-directory live-autosaves-dir t)
-(make-directory live-backups-dir t)
+;; Install my default packages
+(defvar my-package-list
+  '(better-defaults paredit cider company magit bind-key))
 
-;; Helper fn for loading live packs
+(dolist (p my-package-list)
+  (when (not (package-installed-p p))
+    (package-install p)))
 
-(defun live-pack-config-dir ()
-  "Returns the path of the config dir for the current pack"
-  (file-name-as-directory (concat live-load-pack-dir "config")))
-
-(defun live-pack-lib-dir ()
-  "Returns the path of the lib dir for the current pack"
-  (file-name-as-directory (concat live-load-pack-dir "lib")))
-
-(defun live-load-pack (pack-name)
-  "Load a live pack. This is a dir that contains at least a file
-  called init.el. Adds the packs's lib dir to the load-path"
-  (let* ((pack-name (if (symbolp pack-name)
-                        (symbol-name pack-name)
-                      pack-name))
-         (pack-name-dir (if (file-name-absolute-p pack-name)
-                            (file-name-as-directory pack-name)
-                          (file-name-as-directory (concat live-packs-dir pack-name))))
-         (pack-init (concat pack-name-dir "init.el")))
-    (setq live-load-pack-dir pack-name-dir)
-    (add-to-list 'load-path (live-pack-lib-dir))
-    (if (file-exists-p pack-init)
-        (load-file pack-init))
-    (setq live-load-pack-dir nil)))
-
-(defun live-add-pack-lib (p)
-  "Adds the path (specified relative to the the pack's lib dir)
-  to the load-path"
-  (add-to-list 'load-path (concat (live-pack-lib-dir) p)))
-
-(defun live-load-config-file (f-name)
-  "Load the config file with name f-name in the current pack"
-  (let* ((config-dir (live-pack-config-dir)))
-    (load-file (concat config-dir f-name))))
-
-(defun live-use-packs (pack-list)
-  "Use the packs in pack-list - overrides the defaults and any
-  previous packs added with live-add-packs."
-  (setq live-packs pack-list))
-
-(defun live-add-packs (pack-list)
-  "Add the list pack-list to end of the current list of packs to
-  load"
-  (setq live-packs (append live-packs pack-list)))
-
-;; Load `~/.emacs-live.el`. This allows you to override variables such
-;; as live-packs (allowing you to specify pack loading order)
-;; (let* ((pack-file (concat (file-name-as-directory "~") ".emacs-live.el")))
-;;   (if (file-exists-p pack-file)
-;;       (load-file pack-file)))
-
-(defun live-load-all-packs (live-packs)
-  (mapcar (lambda (pack-name) (live-load-pack pack-name)) live-packs)
-  ; user is last
-  (live-load-pack "user"))
-
-(defun live-user-first-name ()
-  (car  (split-string user-full-name)))
-
-(setq live-welcome-messages
-      (list (concat "Hello " (live-user-first-name) ", somewhere in the world the Sun is shining for you right now.")
-            (concat "Hello " (live-user-first-name) ", it's lovely to see you again. I do hope that you're well.")
-            (concat (live-user-first-name) ", this could be the beginnings of a great hacking session.")
-            (concat (live-user-first-name) ", may the source be with you; the force, aka GNU Emacs is at your command.")
-            (concat (live-user-first-name) ", turn your head towards the Sun and the shadows will fall behind you.")))
-
-(defun live-welcome-message ()
-  (nth (random (length live-welcome-messages)) live-welcome-messages))
-
-(setq initial-scratch-message (concat ";;     MM\"\"\"\"\"\"\"\"`M
-;;     MM  mmmmmmmM
-;;     M`      MMMM 88d8b.d8b. .d8888b. .d8888b. .d8888b.
-;;     MM  MMMMMMMM 88''88'`88 88'  `88 88'  `\"\" Y8ooooo.
-;;     MM  MMMMMMMM 88  88  88 88.  .88 88.  ...       88
-;;     MM        .M dP  dP  dP `88888P8 '88888P' '88888P'
-;;     MMMMMMMMMMMM
-;;
-;;         M\"\"MMMMMMMM M\"\"M M\"\"MMMMM\"\"M MM\"\"\"\"\"\"\"\"`M
-;;         M  MMMMMMMM M  M M  MMMMM  M MM  mmmmmmmM
-;;         M  MMMMMMMM M  M M  MMMMP  M M`      MMMM
-;;         M  MMMMMMMM M  M M  MMMM' .M MM  MMMMMMMM
-;;         M  MMMMMMMM M  M M  MMP' .MM MM  MMMMMMMM
-;;         M         M M  M M     .dMMM MM        .M
-;;         MMMMMMMMMMM MMMM MMMMMMMMMMM MMMMMMMMMMMM
-;;
-;;           http://github.com/ghoseb/dotemacs
-;;
-;; " (live-welcome-message) "
-
-"))
-
-;;;
-;;; Entry point
-;;;
-
-;;default live packs
-(setq live-packs '("core" "themes" "power" "clojure" "programming" "notes"))
-
-;; Load all packs - Power Extreme!
-(live-load-all-packs live-packs)
-
-(setq mac-command-modifier 'meta)
-
-(server-start)
+(setq user-full-name "Mayur Jadhav")
+(setq user-mail-address "mj.jadhav13@gmail.com")
 
 
-;;;
-;;; Org Mode
-;;;
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/packs/user/org-mode/lisp"))
-(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
-(require 'org)
-;;
-;; Standard key bindings
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+;; Clean GUI
+(mapc
+ (lambda (mode)
+   (when (fboundp mode)
+     (funcall mode -1)))
+ '(menu-bar-mode tool-bar-mode scroll-bar-mode))
 
-(setenv "PATH" (concat "/usr/local/smlnj/bin:" (getenv "PATH")))
-(setq exec-path (cons "/usr/local/smlnj/bin"  exec-path))
+;; set default home directory
+;; (setq default-directory (f-full (getenv "HOME")))
 
-(global-set-key (kbd "C-x q") 'git-gutter:revert-hunk)
-(global-set-key (kbd "C-x x") 'git-gutter:popup-diff)
-(global-set-key (kbd "C-c C-s") 'git-gutter:stage-hunk)
-(global-set-key (kbd "C-x n") 'git-gutter:previous-hunk)
-(global-set-key (kbd "C-x p") 'git-gutter:next-hunk)
+;; (defun load-local (file)
+;;   (load (f-expand file user-emacs-directory)))
+
+
+;; load current directory
+(let ((default-directory user-emacs-directory))
+  (normal-top-level-add-subdirs-to-load-path))
+
+;; If osx then make changes related to OSX
+(when (eq system-type 'darwin)
+  (require 'osx))
+
+
+;; Add paredit minor mode to different mjor modes
+(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+
+(eval-after-load 'clojure-mode
+  '(progn (add-hook 'clojure-mode-hook 'enable-paredit-mode)))
+
+(eval-after-load 'cider-repl
+  '(progn (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)))
+
+(eval-after-load 'paredit
+  '(progn (define-key paredit-mode-map (kbd "M-s") nil)
+          (define-key paredit-mode-map (kbd "C-o") 'paredit-open-round)))
+
+
+;; Add global company hook for text completion
+(add-hook 'after-init-hook 'global-company-mode)
+
+
+;; This extension allows you to tab-complete words in isearch-mode.
+(require 'isearch-dabbrev)
+(eval-after-load "isearch"
+  '(progn
+     (require 'isearch-dabbrev)
+     (define-key isearch-mode-map (kbd "<tab>") 'isearch-dabbrev-expand)))
+
+
+;; add magit hook
+(global-set-key (kbd "C-x g") 'magit-status)
+
+
+;; window-numbering-mode
+(require 'window-number)
+(window-number-meta-mode 1)
+(window-number-mode 1)
+
+
+;; sudo-edit functionality
+(defun sudo-edit (&optional arg)
+  "Edit currently visited file as root.
+
+With a prefix ARG prompt for a file to visit.
+Will also prompt for a file to visit if current
+buffer is not visiting a file."
+  (interactive "P")
+  (if (or arg (not buffer-file-name))
+      (find-file (concat "/sudo:root@localhost:"
+                         (ido-read-file-name "Find file(as root): ")))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+
+;; Add web search capability for google, wikipedia, emacs-wiki
+(global-set-key (kbd "C-x C-a") 'webjump)
+
+;; Add Urban Dictionary to webjump
+(eval-after-load "webjump"
+'(add-to-list 'webjump-sites
+              '("Urban Dictionary" .
+                [simple-query
+                 "www.urbandictionary.com"
+                 "http://www.urbandictionary.com/define.php?term="
+                 ""])))
+
+
+;; just press ~ to go home.
+(add-hook 'ido-setup-hook
+ (lambda ()
+   ;; Go straight home
+   (define-key ido-file-completion-map
+     (kbd "~")
+     (lambda ()
+       (interactive)
+       (if (looking-back "/")
+           (insert "~/")
+         (call-interactively 'self-insert-command))))))
+
+
+;; Save buffers before quiting emacs
+(bind-key
+ "C-x C-c"
+ (lambda ()
+   (interactive)
+   (if (y-or-n-p "Quit Emacs? ")
+       (save-buffers-kill-emacs))))
+
+
+;; --------
+;; Bindings
+;; --------
+
+;; (bind-key "C-a" 'back-to-indentation-or-beginning-of-line)
+;; (bind-key "C-7" 'comment-or-uncomment-current-line-or-region)
+;; (bind-key "C-6" 'linum-mode)
+;; (bind-key "C-v" 'scroll-up-five)
+(bind-key "C-j" 'newline-and-indent)
+
+(bind-key "M-g" 'goto-line)
+(bind-key "M-n" 'open-line-below)
+(bind-key "M-p" 'open-line-above)
+(bind-key "M-+" 'text-scale-increase)
+(bind-key "M-_" 'text-scale-decrease)
+(bind-key "M-j" 'join-line-or-lines-in-region)
+(bind-key "M-v" 'scroll-down-five)
+(bind-key "M-k" 'kill-this-buffer)
+(bind-key "M-o" 'other-window)
+;; (bind-key "M-1" 'delete-other-windows)
+;; (bind-key "M-2" 'split-window-below)
+;; (bind-key "M-3" 'split-window-right)
+;; (bind-key "M-0" 'delete-window)
+(bind-key "M-}" 'next-buffer)
+(bind-key "M-{" 'previous-buffer)
+(bind-key "M-`" 'other-frame)
+;; (bind-key "M-w" 'kill-region-or-thing-at-point)
+
+;; (bind-key "C-c g" 'google)
+(bind-key "C-c n" 'clean-up-buffer-or-region)
+(bind-key "C-c s" 'swap-windows)
+(bind-key "C-c r" 'rename-buffer-and-file)
+(bind-key "C-c k" 'delete-buffer-and-file)
+
+(bind-key "C-M-h" 'backward-kill-word)

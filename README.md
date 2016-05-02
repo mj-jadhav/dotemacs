@@ -1,97 +1,28 @@
-# BG's Emacs Setup #
-A fresh approach to managing my Emacs setup.
+# MJ's dotemacs configuration
 
-*Still a work in progress.*
+Basic emacs configuration for clojure, cider and magit
 
-## Philosophy ##
-* No magic
-* Simple
-* Extensible
-* Well documented (lol!)
+Still a work in progress...
 
-## Directory Structure ##
-    ~/.emacs.d
-        - etc # auxilliary files, snippets, etc.
-        - packs # different library/config "packs"
-        - init.el # the main entry point
+## Prerequisites
 
-### Structure of Packs ###
-Every *pack* is a logical group of Emacs Lisp libraries and
-corresponding configuration files. Each pack is designed to be
-completely stand-alone except certain functions to load the config files
-from the correct directory which are provided by the `init.el` file.
+Your `~/.lein/profiles.clj` should at least have the following stuff:
 
-Each pack must have this structure -
+```Clojure
+{:repl {:dependencies [[org.clojure/tools.nrepl "0.2.12"]]}}
+```
 
-    my-pack/
-        - lib/ # emacs Lisp library files
-        - config/ # config files for each library as needed
-        - init.el # entry point for the pack
+## Features
 
-Take a look at the `notes` pack for more information.
+- C-x g         Opens magit status
+- C-x C-a       Jump to web search: Google, wikipedia, emacs-wiki
+- C-x C-f ~     Go to HOME
+- window-numbering with M-1, M-2
 
-## Initialisation ##
-All the packs are loaded from the top-level `init.el` file so you can
-enable/disable loading of packs from there. Look at the bottom of the
-said file for more information.
+NOTE: More keybindings can be found under .emacs.d/init.el file
 
+## Getting started
 
-## Included Packs ##
-* Core
-  - core Emacs configuration
-* Power
-  - configuration for power-users
-* Programming
-  - settings for different programming languages
-* Themes
-  - colour theme settings
-* Notes
-  - note-taking using Deft & Org
-* Clojure
-  - for Clojure programming
-* User
-  - a special pack for user-level customizations
-  - always loaded last
-
-## Supported Programming Languages ##
-* Clojure
-* Python
-* Go
-* Haskell
-* JavaScript
-* HTML/CSS/SCSS
-* Lua
-* SML
-* Racket (via Geiser)
-* OCaml (via Tuareg)
-* Scala (via scala-mode2 & ensime)
-
-## Note for OSX Users ##
-If the display looks weird, Comment out the following lines in ~/.emacs.d/packs/core/config/osx.el
-
-    ;;; frames
-    ;; (setq initial-frame-alist '((top . 23)
-    ;;                             (left . 0)
-    ;;                             (width . 168)
-    ;;                             (height . 48)))
-
-
-## Contributing ##
-I welcome any contribution to the project in the form of patches, etc. I
-am generally looking for any sort of configuration/tweak that is useful
-for Emacs beginners and hackers alike.
-
-Even though I may choose to not include something as default, I am fine
-with keeping them when commented out/disabled by default.
-
-If you have a patch, please send me a pull-request and then we can
-discuss.
-
-In case of any questions, feel free to email me - `b.ghose @ freegeek.in`.
-
-## License ##
-Copyright belongs to the respective authors. Everything else is in the
-Public Domain.
-
-## Acknowledgements ##
-Based on the work of [Sam Aaron](https://github.com/overtone/emacs-live).
+To learn Emacs you should follow any generic Emacs tutorial. If you're
+a Clojure programmer then you may follow the guide in
+[Brave Clojure](http://www.braveclojure.com/basic-emacs/).

@@ -162,3 +162,7 @@ buffer is not visiting a file."
 (bind-key "C-c k" 'delete-buffer-and-file)
 
 (bind-key "C-M-h" 'backward-kill-word)
+
+
+;; start emacs-server
+(server-start)

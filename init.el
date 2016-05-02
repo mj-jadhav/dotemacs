@@ -54,7 +54,16 @@
   '(progn (add-hook 'clojure-mode-hook 'enable-paredit-mode)))
 
 (eval-after-load 'cider-repl
-  '(progn (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)))
+  '(progn (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)
+          (add-hook 'cider-repl-mode-hook 'company-mode)
+          (add-hook 'cider-mode-hook 'company-mode)
+          (add-hook 'cider-mode-hook 'eldoc-mode)
+          (setq nrepl-buffer-name-show-port t)
+          (setq cider-prefer-local-resources t)
+          (setq cider-prompt-for-symbol nil)
+          (setq cider-repl-history-size 1000)
+          (setq cider-repl-history-file "~/.emacs.d/cider-history.dat")
+          (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)))
 
 (eval-after-load 'paredit
   '(progn (define-key paredit-mode-map (kbd "C-o") 'paredit-open-round)))

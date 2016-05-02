@@ -26,6 +26,11 @@
      (funcall mode -1)))
  '(menu-bar-mode tool-bar-mode scroll-bar-mode))
 
+;; custome theme
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'monokai t)
+;; (set-face-attribute 'region nil :background "#3d3d3d")
+
 ;; set default home directory
 ;; (setq default-directory (f-full (getenv "HOME")))
 

@@ -9,7 +9,7 @@
 
 ;; Install my default packages
 (defvar my-package-list
-  '(better-defaults paredit cider company magit bind-key))
+  '(better-defaults paredit cider company magit bind-key smex))
 
 (dolist (p my-package-list)
   (when (not (package-installed-p p))
@@ -62,6 +62,13 @@
 
 ;; Add global company hook for text completion
 (add-hook 'after-init-hook 'global-company-mode)
+(ido-mode 1)
+(ido-everywhere 1)
+(ido-ubiquitous-mode 1)
+(setq ido-case-fold t)
+(setq ido-everywhere t)
+(setq ido-enable-flex-matching t)
+(setq ido-enable-flex-matching t)
 
 
 ;; This extension allows you to tab-complete words in isearch-mode.
@@ -166,6 +173,7 @@ buffer is not visiting a file."
 (bind-key "C-c k" 'delete-buffer-and-file)
 
 (bind-key "C-M-h" 'backward-kill-word)
+(bind-key "M-x" 'smex)
 
 
 ;; start emacs-server

@@ -57,8 +57,7 @@
   '(progn (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)))
 
 (eval-after-load 'paredit
-  '(progn (define-key paredit-mode-map (kbd "M-s") nil)
-          (define-key paredit-mode-map (kbd "C-o") 'paredit-open-round)))
+  '(progn (define-key paredit-mode-map (kbd "C-o") 'paredit-open-round)))
 
 
 ;; Add global company hook for text completion

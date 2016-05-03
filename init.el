@@ -9,7 +9,7 @@
 
 ;; Install my default packages
 (defvar my-package-list
-  '(better-defaults paredit cider company magit bind-key smex ido-ubiquitous smart-mode-line expand-region))
+  '(better-defaults paredit cider company magit bind-key smex ido-ubiquitous smart-mode-line expand-region highlight-symbol))
 
 (dolist (p my-package-list)
   (when (not (package-installed-p p))
@@ -258,3 +258,10 @@ buffer is not visiting a file."
 ;; Expand region
 (require 'expand-region)
 (bind-key "C-:" 'er/expand-region)
+
+
+;; Highlight symbol
+(require 'highlight-symbol)
+(highlight-symbol-mode 1)
+(setq highlight-symbol-idle-delay 100)
+(bind-key "<f5>" 'highlight-symbol-next)

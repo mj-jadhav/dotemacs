@@ -198,11 +198,11 @@ buffer is not visiting a file."
 (bind-key "M-`" 'other-frame)
 ;; (bind-key "M-w" 'kill-region-or-thing-at-point)
 
-;; (bind-key "C-c g" 'google)
+(bind-key "C-c g" 'google)
 (bind-key "C-c n" 'clean-up-buffer-or-region)
 (bind-key "C-c s" 'swap-windows)
-(bind-key "C-c r" 'rename-buffer-and-file)
-(bind-key "C-c k" 'delete-buffer-and-file)
+(bind-key "C-c C-r" 'rename-buffer-and-file)
+(bind-key "C-c C-k" 'delete-buffer-and-file)
 
 (bind-key "C-M-h" 'backward-kill-word)
 (bind-key "M-x" 'smex)
@@ -265,3 +265,6 @@ buffer is not visiting a file."
 (highlight-symbol-mode 1)
 (setq highlight-symbol-idle-delay 100)
 (bind-key "<f5>" 'highlight-symbol-next)
+
+
+(set-face-attribute 'default nil :height 130)

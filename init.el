@@ -199,3 +199,6 @@ buffer is not visiting a file."
         (linum-mode 1)
         (goto-line (read-number "Goto line: ")))
     (linum-mode -1)))
+
+;; Override yes-or-no prompt with y-or-n
+(defalias 'yes-or-no-p 'y-or-n-p)

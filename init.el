@@ -9,7 +9,7 @@
 
 ;; Install my default packages
 (defvar my-package-list
-  '(better-defaults paredit cider company magit bind-key smex))
+  '(better-defaults paredit cider company magit bind-key smex ido-ubiquitous smart-mode-line))
 
 (dolist (p my-package-list)
   (when (not (package-installed-p p))
@@ -30,6 +30,29 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'monokai t)
 ;; (set-face-attribute 'region nil :background "#3d3d3d")
+
+
+(setq-default
+ mode-line-format
+ '("%e"
+   mode-line-front-space
+   mode-line-mule-info
+   mode-line-client
+   mode-line-modified
+   mode-line-remote
+   mode-line-frame-identification
+   mode-line-buffer-identification
+   "   "
+   mode-line-position
+   (vc-mode vc-mode)
+   "  "
+   mode-line-modes
+   mode-line-misc-info
+   mode-line-end-spaces))
+
+(setq sml/theme 'automatic)
+(sml/setup)
+
 
 ;; set default home directory
 ;; (setq default-directory (f-full (getenv "HOME")))
@@ -189,6 +212,7 @@ buffer is not visiting a file."
 (server-start)
 
 
+;; Show line number temporarily when M-g (goto-line)
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
 (defun goto-line-with-feedback ()
@@ -200,9 +224,26 @@ buffer is not visiting a file."
         (goto-line (read-number "Goto line: ")))
     (linum-mode -1)))
 
+
 ;; Override yes-or-no prompt with y-or-n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 
 ;; Disable visual bell, b/c it breaks emacs GUI
 (setq visible-bell nil)
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

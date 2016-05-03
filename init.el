@@ -9,7 +9,7 @@
 
 ;; Install my default packages
 (defvar my-package-list
-  '(better-defaults paredit cider company magit bind-key smex ido-ubiquitous smart-mode-line))
+  '(better-defaults paredit cider company magit bind-key smex ido-ubiquitous smart-mode-line expand-region))
 
 (dolist (p my-package-list)
   (when (not (package-installed-p p))
@@ -255,4 +255,6 @@ buffer is not visiting a file."
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
 
-
+;; Expand region
+(require 'expand-region)
+(bind-key "C-:" 'er/expand-region)

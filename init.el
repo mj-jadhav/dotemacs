@@ -74,13 +74,13 @@
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 
 (eval-after-load 'clojure-mode
-  '(progn (add-hook 'clojure-mode-hook 'enable-paredit-mode)))
+  '(progn (add-hook 'clojure-mode-hook 'enable-paredit-mode)
+          (add-hook 'clojure-mode-hook 'company-mode)
+          (add-hook 'clojure-mode-hook 'eldoc-mode)))
 
 (eval-after-load 'cider-repl
   '(progn (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)
           (add-hook 'cider-repl-mode-hook 'company-mode)
-          (add-hook 'cider-mode-hook 'company-mode)
-          (add-hook 'cider-mode-hook 'eldoc-mode)
           (setq nrepl-buffer-name-show-port t)
           (setq cider-prefer-local-resources t)
           (setq cider-prompt-for-symbol nil)

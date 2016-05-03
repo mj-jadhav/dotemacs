@@ -202,3 +202,7 @@ buffer is not visiting a file."
 
 ;; Override yes-or-no prompt with y-or-n
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+
+;; Disable visual bell, b/c it breaks emacs GUI
+(setq visible-bell nil)

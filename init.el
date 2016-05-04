@@ -9,7 +9,7 @@
 
 ;; Install my default packages
 (defvar my-package-list
-  '(better-defaults paredit cider company magit bind-key smex ido-ubiquitous smart-mode-line expand-region highlight-symbol))
+  '(better-defaults paredit cider company magit bind-key smex ido-ubiquitous smart-mode-line expand-region highlight-symbol git-gutter))
 
 (dolist (p my-package-list)
   (when (not (package-installed-p p))
@@ -268,3 +268,12 @@ buffer is not visiting a file."
 
 
 (set-face-attribute 'default nil :height 130)
+
+
+;; Add git gutter mode
+(require 'git-gutter)
+(global-git-gutter-mode t)
+(bind-key "C-x q" 'git-gutter:revert-hunk)
+(bind-key "C-c C-s" 'git-gutter:stage-hunk)
+(bind-key "C-x p" 'git-gutter:previous-hunk)
+(bind-key "C-x n" 'git-gutter:next-hunk)

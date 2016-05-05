@@ -129,6 +129,10 @@
           isearch-message (mapconcat 'isearch-text-char-description istring ""))
     (isearch-search-and-update)))
 
+;; This extension allows you to tab-complete words in isearch-mode.
+(eval-after-load "isearch"
+  '(progn
+     (define-key isearch-mode-map (kbd "<tab>") 'isearch-dabbrev-expand)))
 
 (provide 'isearch-dabbrev)
 ;;; isearch-dabbrev.el ends here

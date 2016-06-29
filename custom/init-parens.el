@@ -2,7 +2,8 @@
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 
 (eval-after-load 'paredit
-  '(progn (define-key paredit-mode-map (kbd "C-o") 'paredit-open-round)))
+  '(progn (define-key paredit-mode-map (kbd "C-o") 'paredit-open-round)
+          (define-key paredit-mode-map (kbd "M-s") nil)))
 
 (provide 'init-parens)
 

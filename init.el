@@ -86,7 +86,6 @@
 ;; ------------
 
 (bind-key "C-j" 'newline-and-indent)
-(bind-key "M-g" 'goto-line)
 (bind-key "M-n" 'open-line-below)
 (bind-key "M-p" 'open-line-above)
 (bind-key "M-+" 'text-scale-increase)
